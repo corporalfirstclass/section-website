@@ -1,4 +1,3 @@
-import { env } from "cloudflare:workers";
 import { listEnquiries, storeEnquiry } from "../../../db/cms";
 import { requireSectionEditor } from "../cms/auth";
 
@@ -16,7 +15,7 @@ export async function GET(request: Request) {
   try {
     requireSectionEditor(request);
     const result = await listEnquiries();
-    return Response.json({ enquiries: result.results });
+    return Response.json({ enquiries: result });
   } catch (error) {
     if (error instanceof Response) return error;
     throw error;
@@ -43,10 +42,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const runtime = env as unknown as {
-    RESEND_API_KEY?: string;
-    ENQUIRY_FROM_EMAIL?: string;
-  };
+  const runtime = process.env;
   let deliveryStatus = "stored";
 
   if (runtime.RESEND_API_KEY && runtime.ENQUIRY_FROM_EMAIL) {
