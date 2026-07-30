@@ -1,22 +1,19 @@
-# vinext-starter
+# Section website
 
 A clean full-stack starter running on
 [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and
 Drizzle support.
 
-## Prerequisites
+## Deployment rule
 
-- Node.js `>=22.13.0`
+Before any LIVE deployment, complete [LIVE_DEPLOYMENT_QA.md](./LIVE_DEPLOYMENT_QA.md)
+and run:
 
-## Quick Start
-
-```bash
-npm install
-npm run dev
-npm run build
+```sh
+npm run qa:live
 ```
 
-This starter does not use `wrangler.jsonc`.
+Any failure blocks deployment. Firebase App Hosting must use Node 22.
 
 ## Included Shape
 
@@ -88,8 +85,9 @@ actions tied to the current ChatGPT user. Leave public content anonymous.
 ## Useful Commands
 
 - `npm run dev`: start local development
-- `npm run build`: verify the vinext build output
-- `npm test`: build the starter and verify its rendered loading skeleton
+- `npm run build`: create the production Next.js build
+- `npm test`: run repository safeguards
+- `npm run qa:live`: required lint, build and test gate before LIVE
 - `npm run db:generate`: generate Drizzle migrations after schema changes
 
 ## Learn More

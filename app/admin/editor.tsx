@@ -170,6 +170,8 @@ export default function Editor({ userEmail }: { userEmail: string }) {
   );
 
   useEffect(() => {
+    // Loading a new page intentionally hydrates the editor's local draft state.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     void loadPage(slug);
   }, [loadPage, slug]);
 
