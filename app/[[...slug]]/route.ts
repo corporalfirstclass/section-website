@@ -21,11 +21,43 @@ img,video,svg{max-width:100%}
 }
 </style>`;
 
+const canvasFallback = `
+<style id="section-canvas-fallback">
+html.dark body.home.section-canvas-fallback .wp-block-section-masthead{
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse 48% 72% at 82% 16%,rgba(230,242,213,.98) 0%,rgba(165,196,184,.72) 24%,rgba(81,113,156,.28) 52%,transparent 72%),
+    radial-gradient(ellipse 52% 68% at 18% 84%,rgba(104,129,177,.72) 0%,transparent 68%),
+    linear-gradient(135deg,#243666 0%,#334b7c 48%,#6f8e9d 100%);
+}
+</style>
+<script id="section-canvas-fallback-check">
+(function(){
+  function checkForCanvas(){
+    if(!document.querySelector("body.home"))return;
+    document.body.classList.toggle(
+      "section-canvas-fallback",
+      !document.querySelector("body > canvas")
+    );
+  }
+  if(document.readyState==="loading"){
+    document.addEventListener("DOMContentLoaded",function(){setTimeout(checkForCanvas,1200)});
+  }else{
+    setTimeout(checkForCanvas,1200);
+  }
+  window.addEventListener("load",function(){setTimeout(checkForCanvas,1200)});
+})();
+</script>`;
+
 function addResponsiveOverrides(html: string) {
-  if (html.includes("section-responsive-overrides")) return html;
+  const additions = [
+    html.includes("section-responsive-overrides") ? "" : responsiveOverrides,
+    html.includes("section-canvas-fallback-check") ? "" : canvasFallback,
+  ].join("");
+  if (!additions) return html;
   return html.includes("</head>")
-    ? html.replace("</head>", `${responsiveOverrides}</head>`)
-    : `${responsiveOverrides}${html}`;
+    ? html.replace("</head>", `${additions}</head>`)
+    : `${additions}${html}`;
 }
 
 export async function GET(

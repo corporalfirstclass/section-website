@@ -72,6 +72,9 @@ test("keeps the live deployment safeguards enabled", async () => {
   assert.match(packageData.scripts["qa:live"], /build/);
   assert.match(packageData.scripts["qa:live"], /test/);
   assert.match(publicRoute, /section-responsive-overrides/);
+  assert.match(publicRoute, /section-canvas-fallback-check/);
+  assert.match(publicRoute, /!document\.querySelector\(\"body > canvas\"\)/);
+  assert.match(publicRoute, /linear-gradient\(135deg,#243666/);
   assert.match(publicRoute, /x-robots-tag/);
   assert.match(cmsCss, /\.cms-app\{[^}]*overflow-x:hidden/);
   assert.match(cmsCss, /@media\(max-width:760px\)/);
